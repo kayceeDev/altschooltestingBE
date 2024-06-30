@@ -68,6 +68,17 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
+// GET endpoint
+app.get("/api/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const resources = await User.findById(id);
+    res.status(200).json(resources);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // POST endpoint
 app.post("/api/users", async (req, res) => {
   try {
@@ -78,6 +89,20 @@ app.post("/api/users", async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
+// POST endpoint
+app.post("/api/users/login", async (req, res) => {
+  try {
+    const foundUser = await User.find({email:req.body.email, password:req.body.password})
+    if (foundUser.length < 1){
+      return res.status(404).json({message: "email or password incorrect"})
+    }
+    res.status(201).json(foundUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 
 // PUT endpoint
 app.put("/api/users/:id", async (req, res) => {
