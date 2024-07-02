@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || " ";
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -136,5 +136,5 @@ app.delete("/api/users/:id", async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on ${port}`);
 });
